@@ -1,8 +1,8 @@
 public class MyHashTable {
     private static class Node {
-        String key;
-        Object value;
-        Node next;
+        String  key;
+        Object  value;
+        Node    next;
     }
 
     private Node[] table;
