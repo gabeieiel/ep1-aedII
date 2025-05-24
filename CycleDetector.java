@@ -1,8 +1,8 @@
 public class CycleDetector {
-    private DirectedGraph graph;
-    private MyHashTable visited;
-    private MyHashTable onStack;
-    private boolean hasCycle;
+    private DirectedGraph   graph;
+    private MyHashTable     visited;
+    private MyHashTable     onStack;
+    private boolean         hasCycle;
 
     public CycleDetector(DirectedGraph graph) {
         this.graph      = graph;

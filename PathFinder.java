@@ -1,48 +1,59 @@
 public class PathFinder {
-    private DirectedGraph graph;
-    private MyHashTable visited;
-    private MyHashTable edgeTo;
-    private String start;
+    private DirectedGraph   graph;
+    private SimpleList      atualCaminho;
+    private MyHashTable     visited;
 
     public PathFinder(DirectedGraph graph) {
-        this.graph      = graph;
-        this.visited    = new MyHashTable(100);
-        this.edgeTo     = new MyHashTable(100); // armazena o caminho percorrido
+        this.graph          = graph;                    // vértice visitado (v.v.)    
+        this.atualCaminho   = new SimpleList();         // caminho em construção
+        this.visited        = new MyHashTable(100);
     }
 
-    public boolean hasPath(String from, String to) {
-        this.start  = from;
-        visited     = new MyHashTable(100); // reinicia marcações
-        edgeTo      = new MyHashTable(100); // reinicia o rastreamento de caminho
-
-        dfs(from);
-        return visited.contains(to);
+    
+    public void findAllPaths(String source, String target) {
+        visited         = new MyHashTable(100);     // reinicia marcações
+        atualCaminho    = new SimpleList();         // reinicia caminho
+        dfs(source, target);                        // dfs a partir de source
     }
 
-    private void dfs(String v) {
-        visited.put(v, true);
+    private void dfs(String atual, String target) {
+        visited.put(atual, true);               // v.v.
+        atualCaminho.add(atual);                // adiciona ao caminho atual
+
+        if (atual.equals(target)) {   // caminho completo encontrado
+            print_atualCaminho();                   
+        }
         
-        SimpleList vizinhos = graph.getAdj(v);  // vizinhos de v
+        else {
+            SimpleList vizinhos = graph.getAdj(atual);  // vizinhos de atual
+            if (vizinhos != null) {
 
-        if (vizinhos != null) {
-            for (String w : vizinhos) {
-                if (!visited.contains(w)) {
-                    edgeTo.put(w, v);   //  alcançado a partir de v
-                    dfs(w);
+                for (String vizinho : vizinhos) {
+
+                    if (!visited.contains(vizinho))
+                        dfs(vizinho, target);    // explora vizinho
+                    
                 }
             }
         }
+
+        visited.put(atual, false);              // desmarca para permitir novos caminhos
+        atualCaminho.removeFirst();             // remove da trilha atual
     }
 
-    public SimpleList pathTo(String to) {
-        if (!visited.contains(to)) return null; // não há caminho se "to" não foi visitado
+    private void print_atualCaminho() {
+        SimpleList.IteratorType it = atualCaminho.new IteratorType();
 
-        SimpleList path = new SimpleList();     // lista do caminho de volta
+        boolean first = true;
 
-        for (String x = to; !x.equals(start); x = (String) edgeTo.get(x)) {
-            path.add(x);
+        while (it.hasNext()) {
+            if (!first) System.out.print(" -> ");
+
+            System.out.print(it.next());
+
+            first = false;
         }
-        path.add(start);
-        return path;
+        
+        System.out.println();
     }
 }
