@@ -15,6 +15,12 @@ public class SimpleList implements Iterable<String> {
         head = novo_node;
     }
 
+    public void removeFirst() {
+        if (head != null) {
+            head = head.next;
+        }
+    }
+
     /* esse tipo permite a utilização do for each na classe */
     @Override
     public Iterator<String> iterator() { return new IteratorType();}
