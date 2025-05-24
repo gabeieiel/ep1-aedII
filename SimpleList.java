@@ -2,16 +2,16 @@ import java.util.Iterator;
 
 public class SimpleList implements Iterable<String> {
     private static class Node {
-        String value;
-        Node next;
+        String  value;
+        Node    next;
     }
 
     private Node head;
 
     public void add(String value) {
-        Node novo_node = new Node();
+        Node novo_node  = new Node();
         novo_node.value = value;
-        novo_node.next = head;
+        novo_node.next  = head;
         head = novo_node;
     }
 
@@ -26,18 +26,18 @@ public class SimpleList implements Iterable<String> {
     public Iterator<String> iterator() { return new IteratorType();}
 
     public class IteratorType implements Iterator<String> {
-        private Node current = head;
+        private Node atual = head;
 
         @Override
         public boolean hasNext() {
-            return current != null;
+            return atual != null;
         }
 
         @Override
         public String next() {
             
-            String value = current.value;
-            current = current.next;
+            String value = atual.value;
+            atual = atual.next;
             
             return value;
         }
