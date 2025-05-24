@@ -11,9 +11,7 @@ public class SimpleList implements Iterable<String> {
     public void add(String value) {
         Node novo_node = new Node();
         novo_node.value = value;
-
         novo_node.next = head;
-
         head = novo_node;
     }
 
